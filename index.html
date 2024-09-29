@@ -1,10 +1,227 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ZEROFLOOD - Anti-DDoS System by Team CodeForstress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f8fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px; /* Limit the maximum width */
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #1d3557;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #457b9d; /* Added border for separation */
+        }
+        header h1 {
+            font-size: 2.5em;
+            text-transform: uppercase;
+        }
+        h2:has(> .title) {
+            font-size: 2em;
+            color: #1d3557;
+            margin: 15px 0;
+            border-bottom: 2px solid #457b9d; /* Added underline for section headers */
+            padding-bottom: 5px; /* Space below the header */
+        }
+        p, ul, li {
+            margin-bottom: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            list-style-type: disc;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1em;
+            min-width: 400px;
+        }
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        table th {
+            background-color: #457b9d;
+            color: #fff;
+        }
+        table td {
+            background-color: #f1f1f1;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                margin: auto;
+            }
+            table th, table td {
+                font-size: 0.8em;
+            }
+        }
+        img {
+            display: block;
+            margin: 20px auto; /* Centering the image */
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #457b9d; /* Added border for image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #1d3557;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0; /* Increased padding */
+            margin-top: 30px;
+            border-top: 4px solid #457b9d; /* Added border for separation */
+        }
+        footer p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+        .highlight {
+            color: #e63946;
+            font-weight: bold;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+
+
+    </style>
 </head>
 <body>
-    <h1>Init commit</h1>
+    <header>
+        <div class="container">
+            <h2 class="title">ZEROFLOOD - DDoS Protection System for Cloud</h2>
+        </div>
+    </header>
+
+    <div class="container">
+        <section>
+            <p align="center">
+                <img src="https://raw.githubusercontent.com/RESEARCH-DEV-s-ORG/zeroflood_doc/f31a8980373bca07463f8563e89394f750238c5d/pic/flowchat.png" alt="Flowchart of DDoS Protection System">
+            </p>
+
+            <h2>Overview</h2>
+            <p>
+                This project implements a robust Anti-DDoS system architecture using DNS load balancing, Web Application Firewalls (WAF), 
+                and validator nodes to secure web servers against distributed denial-of-service attacks. 
+                The system is designed to distribute incoming traffic efficiently and validate requests to ensure that 
+                only legitimate traffic reaches the upstream content servers.
+            </p>
+
+            <h2>Architecture</h2>
+            <ul>
+                <li><strong>DNS Server</strong>
+                    <ul>
+                        <li><span class="highlight">Function</span>: Handles DNS load balancing to distribute incoming traffic between two main servers (Server 1 and Server 2).</li>
+                        <li><span class="highlight">Ports Open</span>: 80/443 (HTTP/HTTPS)</li>
+                    </ul>
+                </li>
+                <li><strong>WAF Load Balancer</strong>
+                    <ul>
+                        <li><span class="highlight">Servers</span>: Two WAF load balancers (one for each main server) manage the flow of incoming traffic to validator nodes.</li>
+                        <li><span class="highlight">Role</span>: Protects against malicious traffic by filtering and blocking potentially harmful requests before they reach validator nodes.</li>
+                    </ul>
+                </li>
+                <li><strong>Validator Layer</strong>
+                    <ul>
+                        <li><span class="highlight">Nodes</span>: Each server contains four validator nodes with different ports (81, 82, 83, 84).</li>
+                        <li><span class="highlight">Purpose</span>: Each validator node checks the validity of incoming requests to prevent automated attacks, ensuring only genuine requests are forwarded. 
+                        The validator nodes utilize TensorFlow Lite models to identify and classify potential DDoS attacks by analyzing traffic patterns and anomalies.</li>
+                    </ul>
+                </li>
+                <li><strong>Upstream Layer (Content Servers)</strong>
+                    <ul>
+                        <li><span class="highlight">Web Servers</span>: Two main web servers (ports 8080 and 8081) host the content.</li>
+                        <li><span class="highlight">Function</span>: Serve validated requests from the validators, providing the final content to users.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>Setup Instructions</h2>
+            <ul>
+                <li><strong>DNS Configuration</strong>: Set up DNS load balancing to distribute traffic between Server 1 and Server 2 on ports 80/443.</li>
+                <li><strong>WAF Load Balancer Setup</strong>: Deploy WAF load balancers on both Server 1 and Server 2 to filter traffic before it reaches the validator nodes.</li>
+                <li><strong>Validator Nodes Deployment</strong>: Configure validator nodes on each server (Server 1: ports 81-84, Server 2: ports 81-84) to handle traffic validation.</li>
+                <li><strong>Content Servers Configuration</strong>: Set up the web servers on ports 8080 and 8081 to serve the validated requests from the validators.</li>
+            </ul>
+
+            <h2>Features</h2>
+            <ul>
+                <li><strong>Load Balancing</strong>: Efficiently distributes traffic across multiple servers to optimize performance and availability.</li>
+                <li><strong>Security Layers</strong>: Multi-layered security approach with WAF and validator nodes to protect against DDoS attacks.</li>
+                <li><strong>Scalable</strong>: Easily add more validator nodes or servers to scale the system as needed.</li>
+            </ul>
+
+            <h2>Team</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+                <tr>
+                    <td>Anurag Sen</td>
+                    <td>develop.contactus@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Sourav Sharma</td>
+                    <td>sourav.dev.thunder@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Subhayan Mandal</td>
+                    <td>toxic.369.hkr@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Debjeet Ghosh</td>
+                    <td>debjeet1ghosh21@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Rajankita Saha</td>
+                    <td>rajankita0735@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Mitali Rath</td>
+                    <td>mitalirath939@gmail.com</td>
+                </tr>
+            </table>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 ZEROFLOOD. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>
